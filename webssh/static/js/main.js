@@ -55,7 +55,7 @@ jQuery(function($){
       messages = {1: 'This client is connecting ...', 2: 'This client is already connnected.'},
       key_max_size = 16384,
       fields = ['hostname', 'port', 'username'],
-      form_keys = fields.concat(['password', 'totp']),
+      form_keys = fields.concat(['password', 'totp', 'pwd_encrypt']),
       opts_keys = ['bgcolor', 'title', 'encoding', 'command', 'term', 'fontsize', 'fontcolor', 'cursor'],
       url_form_data = {},
       url_opts_data = {},
@@ -143,7 +143,10 @@ jQuery(function($){
     }
 
     if (form_map.password) {
-      form_map.password = decode_password(form_map.password);
+      if (!form_map.pwd_encrypt) {
+        // 密码已加密传输，后台进行解密
+        form_map.password = decode_password(form_map.password);
+      }
     }
   }
 

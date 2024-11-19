@@ -7,6 +7,7 @@ import traceback
 import weakref
 import paramiko
 import tornado.web
+import webssh.aes256util
 
 from concurrent.futures import ThreadPoolExecutor
 from tornado.ioloop import IOLoop
@@ -395,6 +396,9 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
         privatekey, filename = self.get_privatekey()
         passphrase = self.get_argument('passphrase', u'')
         totp = self.get_argument('totp', u'')
+        if self.get_argument('pwd_encrypt', u'') == '1':
+            # 密码使用aes加密传输
+            password = webssh.aes256util.decrypt(options.shared_key, password)
 
         if isinstance(self.policy, paramiko.RejectPolicy):
             self.lookup_hostname(hostname, port)
