@@ -42,6 +42,7 @@ def app_listen(app, port, address, server_settings):
 
 def main():
     options.parse_command_line()
+    options.parse_config_file('webssh.config')
     check_encoding_setting(options.encoding)
     loop = tornado.ioloop.IOLoop.current()
     app = make_app(make_handlers(loop, options), get_app_settings(options))
