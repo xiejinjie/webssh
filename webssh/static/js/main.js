@@ -681,6 +681,7 @@ jQuery(function($){
     disable_file_inputs(inputs);
     data = new FormData(form);
     pk = data.get('privatekey');
+    data.append('pwd_encrypt', 0)
     enable_file_inputs(inputs);
 
     function ajax_post() {
